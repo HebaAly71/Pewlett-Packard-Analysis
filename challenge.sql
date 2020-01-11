@@ -10,7 +10,7 @@ AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
 SELECT ri.emp_no,
 	ri.first_name,
 	ri.last_name,
-de.to_date
+--de.to_date
 INTO current_emp
 FROM retirement_info as ri
 LEFT JOIN dept_emp as de
@@ -24,7 +24,7 @@ SELECT  cemp.emp_no,
         ti.title,
 		ti.from_date,
 		s.salary,
-		cemp.to_date
+		--cemp.to_date
 INTO Retiring_Title_1
 FROM current_emp AS cemp
     INNER JOIN titles AS ti
@@ -35,7 +35,7 @@ FROM current_emp AS cemp
 create table cleanTable_Retiredtitles as (
 with identifiedDuplicates as 
 (
-	select emp_no,first_name,last_name,title,from_date,salary,to_date, row_number() over
+	select emp_no,first_name,last_name,title,from_date,salary, row_number() over
 		( 
 			partition by emp_no,first_name,last_name
 			order by from_date DESC
