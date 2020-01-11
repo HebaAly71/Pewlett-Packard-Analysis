@@ -2,11 +2,12 @@
 # Pewlett-Packard-Technical Report
 
 ### Important Files:
-#### - schema.sql
-#### - challenge.sql
-#### - EmployeeDB.png
+ - schema.sql
+ - challenge.sql
+- EmployeeDB.png
 #### Data Folder:
  - current_emp.csv
+ - unclean_employee_retiring_title.csv
  - cleantable_retiring_emp_titles.csv
  - mentors.csv
  
@@ -42,7 +43,8 @@
 	> ON ri.emp_no = de.emp_no
 	> WHERE de.to_date = ('9999-01-01');
  
- ##### Secondly, a table that has the current retiring employees along with their title and salary is created by querying the current_emp table and inner joining with titles and salaries table. This query is saved in  ***Retiring_Title_1*** table.  This query simply outputs a table that has all the current retiring employees data along with their titles and salaries. Below is the code used to create this table:
+ ##### Secondly, a table that has the current retiring employees along with their title and salary is created by querying the current_emp table and inner joining with titles and salaries table. This query is saved in  ***Retiring_Title_1*** table.  This query simply outputs a table that has all the current retiring employees data along with their titles and salaries. This table is saved to ***unclean_employee_retiring_title.csv***.  Below is the code used to create this table:
+ 
  	> ----------List of Retiring Employees including their titles
 	
 	SELECT  cemp.emp_no,
