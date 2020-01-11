@@ -82,7 +82,7 @@
 	> create table cleanTable_Retiredtitles as (
 	with identifiedDuplicates as
 	(
-	select emp_no,first_name,last_name,title,from_date,salary,to_date, row_number() over
+	select emp_no,first_name,last_name,title,from_date,salary, row_number() over
 		( 
 			partition by emp_no,first_name,last_name
 			order by from_date DESC
