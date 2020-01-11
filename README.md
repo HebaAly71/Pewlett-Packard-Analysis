@@ -99,7 +99,7 @@
 	
 	> 1609	Technique Leader
  
- ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file. Please note that we have 1549 potential mentors. This might mean that we might need to hire new employees or promote more employees. Below is the code used to create this table:
+ ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This table is saved to ***mentors.csv*** file. Please note that we have 1549 potential mentors. This might mean that we might need to hire new employees or promote more employees. Below is the code used to create this table:
  
 	> SELECT  e.emp_no,
 		e.first_name,
