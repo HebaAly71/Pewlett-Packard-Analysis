@@ -43,7 +43,37 @@
 	
 	> WHERE de.to_date = ('9999-01-01');
  
- ##### Secondly, a table that has the current retiring employees along with their title and salary is created by querying the current_emp table and inner joining with titles and salaries table. This query is saved in  ***Retiring_Title_1*** table.  This query simply outputs a table that has all the current retiring employees data along with their titles and salaries.  There is only one problem with this table that one employee can have two different titiles in two different dates (from_date).  That means that we can have duplicates, so what we actually need is the most recent title for each retiring employee.  This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title(no duplicates). This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***.  
+ ##### Secondly, a table that has the current retiring employees along with their title and salary is created by querying the current_emp table and inner joining with titles and salaries table. This query is saved in  ***Retiring_Title_1*** table.  This query simply outputs a table that has all the current retiring employees data along with their titles and salaries. Below is the code used to create this table:
+ 	> ----------List of Retiring Employees including their titles
+	
+	SELECT  cemp.emp_no,
+	
+        cemp.first_name,
+	
+        cemp.last_name,
+	
+        ti.title,
+	
+		ti.from_date,
+		
+		s.salary,
+		
+		cemp.to_date
+		
+	INTO Retiring_Title_1
+	
+	FROM current_emp AS cemp
+	
+    	INNER JOIN titles AS ti
+	
+      	  ON (cemp.emp_no = ti.emp_no)
+	  
+    	INNER JOIN salaries AS s
+	
+        	ON (cemp.emp_no = s.emp_no);
+
+##### There is only one problem with this table that one employee can have two different titiles in two different dates (from_date).  That means that we can have duplicates, so what we actually need is the most recent title for each retiring employee.  This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title(no duplicates). This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***. 
+ 
 ##### Another query is then done on the clean retring employees table were we find the number of current retiring employees per title.  This will help the department managers plan how many potential mentors will they need.
  
  ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file.
