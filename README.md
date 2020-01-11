@@ -1,15 +1,19 @@
+
 # Pewlett-Packard-Technical Report
 ### Project Summary:
-##### Pewlett Packard is building a database for its employees. Six main tables were created using PostgresSQL using the csv files provided that has all of the data to build these tables.  Please note that the file ***schema.sql*** has the code to create these tables along with their columns, primary keys and foreign keys.  Also note that the file ***EmployeeDB.png*** has the diagram that explains the relations between each table with respect to its primary and foreign keys.
+##### Pewlett Packard is building a database for its employees. Six main tables were created using PostgresSQL using the csv files provided that has all of the data to build these tables.  Please refer to the file ***schema.sql*** that has the code to create these tables along with their columns, primary keys and foreign keys.  Also refer to the file ***EmployeeDB.png*** that has the ERD that explains the relations between each table with respect to its primary and foreign keys.
  1. Employees Table
  2. Departments Table
  3. Titles Table
  4. Dept_Emp Table
  5. Dept_Manager Table
  6. Salaries_Table
- ##### Then we are asked to find the number of current employees who are retiring and find the employees that can be mentors for supervisory roles. All employees who are born in 1952 and are hired between years 1985 and 1988 are going to retire. While all employees who are born in 1965 are considered to be mentors. 
  
- ##### First of all a table of all the current employees who are retiring is created by querying and joining the employees table and dept_emp table  and getting all the employees who fulfill the criteria stated above for retiring. This query is saved in  ***current_emp*** table.  This query simply outputs a table that has data for all the current employees who are retiring (emp_no, first_name, last_name etc..). This table is saved in ***current_emp.csv***. Below is the code used to create this table.
+ ##### Then we are asked to find the number of current employees who are retiring and find the employees that can be mentors for supervisory roles. All employees who are born in 1952 and are hired between years 1985 and 1988 are going to retire. While all employees who are born in 1965 are considered to be mentors. Please note that current employees means that they are still hired todate so their to_date is 9999-01-01. 
+ 
+ ### Please refer to ***challenge.sql*** for the code of all the required queries
+
+##### First of all a table of all the current employees who are retiring is created by querying and joining the employees table and dept_emp table  and getting all the employees who fulfill the criteria stated above for retiring. This criteria is done by the WHERE() clause. This query is saved in  ***current_emp*** table.  This query simply outputs a table that has data for all the current employees who are retiring (emp_no, first_name, last_name etc..). This table is saved in ***current_emp.csv***. Below is the code used to create this table.
  
 	> --------List of retiring employees--------- 
 	> SELECT emp_no, first_name, last_name
@@ -61,7 +65,8 @@
 
 	> 10009	         Sumant	         Peac	 Senior Engineer	2/18/95	60929	1/1/99
 
-##### This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title(no duplicates). This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***. Below is the code used to get the duplicates and delete them and also save them to a new table.
+##### This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title(no duplicates). This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***. Please note that we have a total of 33118 current retiring employees. Below is the code used to get the duplicates and delete them and also save them to a new table. 
+
 	> create table cleanTable_Retiredtitles as (
 	with identifiedDuplicates as
 	(
@@ -94,7 +99,7 @@
 	
 	> 1609	Technique Leader
  
- ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file. Below is the code used to create this table:
+ ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file. Please note that we have 1549 potential mentors. This might mean that we might need to hire new employees or promote more employees. Below is the code used to create this table:
  
 	> SELECT  e.emp_no,
 		e.first_name,
@@ -120,5 +125,5 @@
 	  190	Engineer
 	  529	Senior Engineer
 
-##### Also it is recommended to find the number of current retiring employees per department, so the department managers can plan how many emlpoyees will be retiring , and plan to hire new employees or promote others. It will also be helpful to create another query to find the number of potential mentors per department.
+##### Also it is recommended to find the number of current retiring employees per department, so the department managers can plan how many emlpoyees will be retiring , and plan to hire new employees or promote others. This can be done by querying in the cleanTable_Retiredtitles and joining it with departments and dept_emp table.  It will also be helpful to create another query to find the number of potential mentors per department. This can be done by querying the mentors table and joining it with departments and dept_emp tables. 
 
