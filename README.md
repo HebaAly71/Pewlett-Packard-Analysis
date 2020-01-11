@@ -72,7 +72,7 @@
 	
         	ON (cemp.emp_no = s.emp_no);
 
-##### There is only one problem with this table that one employee can have two different titiles in two different dates (from_date).  That means that we can have duplicates, so what we actually need is the most recent title for each retiring employee.  As we see in the table below, which is prt of the Retiring_Title_1 table, both Christian Koblick and Sumant Peac has duplicate titles with different from_dates.
+##### There is only one problem with this table that one employee can have two different titiles in two different dates (from_date).  That means that we can have duplicates, so what we actually need is the most recent title for each retiring employee.  As we see in the table below, which is prt of the Retiring_Title_1 table, both Christian Koblick and Sumant Peac names occur more than once with different titles and from_dates.
 
 	> emp_no	first_name	last_name	title	     from_date	salary	to_date
 
@@ -88,7 +88,30 @@
 
 	> 10009	         Sumant	         Peac	 Senior Engineer	2/18/95	60929	1/1/99
 
-##### This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title(no duplicates). This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***. 
+##### This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title(no duplicates). This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***. Below is the code used to get the duplicates and delete them and also save them to a new table.
+	> create table cleanTable_Retiredtitles as (
+	
+	with identifiedDuplicates as
+	
+	(
+	
+	select emp_no,first_name,last_name,title,from_date,salary,to_date, row_number() over
+	
+		( 
+		
+			partition by emp_no,first_name,last_name
+			
+			order by from_date DESC
+			
+		) as rnum
+		
+	from retiring_title_1
+	
+	)
+	
+		select * from identifiedDuplicates where rnum = 1
+	);
+
  
 ##### Another query is then done on the clean retring employees table were we find the number of current retiring employees per title.  This will help the department managers plan how many potential mentors will they need.
  
