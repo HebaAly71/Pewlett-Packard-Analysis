@@ -113,7 +113,7 @@
 	);
 
  
-##### Another query is then done on the clean retiring employees table were we find the number of current retiring employees per title.  This will help the department managers plan how many potential mentors will they need.
+##### Another query is then done on the clean retiring employees table were we find the number of current retiring employees per title.  This will help the department managers plan how many potential mentors will they need. As it is seen from the result of the query that the most of the retiring employees has a senior engineering title, while the least number is 2 and they have a Manager title.
 
 	> count	title
 	
@@ -131,4 +131,18 @@
 	
 	> 1609	Technique Leader
  
- ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file.
+ ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file. Below is the code used to create this table:
+ 
+	> SELECT  e.emp_no,
+		e.first_name,
+        e.last_name,
+        ti.title,
+		ti.from_date,
+		ti.to_date,
+		e.birth_date
+	INTO Mentors
+	FROM employees AS e
+   	INNER JOIN titles AS ti
+        	ON (e.emp_no = ti.emp_no)
+	WHERE (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31') AND ----born in 1965
+       (ti.to_date = ('9999-01-01'));-----current employees
