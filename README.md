@@ -113,6 +113,22 @@
 	);
 
  
-##### Another query is then done on the clean retring employees table were we find the number of current retiring employees per title.  This will help the department managers plan how many potential mentors will they need.
+##### Another query is then done on the clean retiring employees table were we find the number of current retiring employees per title.  This will help the department managers plan how many potential mentors will they need.
+
+	> count	title
+	
+	> 2711	Engineer
+	
+	> 13651	Senior Engineer
+	
+	> 2	Manager
+	
+	> 251	Assistant Engineer
+	
+	> 2022	Staff
+	
+	> 12872	Senior Staff
+	
+	> 1609	Technique Leader
  
  ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This is table is saved to ***mentors.csv*** file.
