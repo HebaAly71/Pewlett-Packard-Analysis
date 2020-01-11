@@ -59,11 +59,11 @@
 
 	> 10004	       **Chirstian	Koblick**	Senior Engineer	12/1/95	40054	1/1/99
 
-	> 10009	         Sumant	         Peac	  Assistant Engineer	2/18/85	60929	1/1/99
+	> 10009	       **Sumant	         Peac**	    Assistant Engineer	2/18/85	60929	1/1/99
 
-	> 10009	         Sumant	         Peac	   Engineer	        2/18/90	60929	1/1/99
+	> 10009	        **Sumant	 Peac**	      Engineer	        2/18/90	60929	1/1/99
 
-	> 10009	         Sumant	         Peac	 Senior Engineer	2/18/95	60929	1/1/99
+	> 10009	        **Sumant	 Peac**	   Senior Engineer	2/18/95	60929	1/1/99
 
 ##### This means that we need to do another query and create another table that has no duplicates.  So another query is done where a new table called ***cleanTable_Retiredtitles*** is created by partitioning the ***retiring_title_1*** table by 'emp_no', 'first_name', 'last_name' and ordering the from_date column in a descending order. The result is a table with all the current retiring employees data along with their most recent title but without duplicates. This cleaned retiring employee with recent title table is saved in ***cleantable_retiring_emp_titles.csv***. Please note that we have a total of 33118 current retiring employees (no duplicates). Below is the code used to get the duplicates and delete them and also save it to a new table with no duplicates. 
 
