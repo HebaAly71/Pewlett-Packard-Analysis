@@ -24,7 +24,7 @@
  
  ### Please refer to ***challenge.sql*** for the code of all the required queries
 
-##### First of all a table of all the current employees who are retiring is created by querying and joining the employees table and dept_emp table  and getting all the employees who fulfill the criteria stated above for retiring. This criteria is done by the WHERE() clause. This query is saved in  ***current_emp*** table.  This query simply outputs a table that has data for all the current employees who are retiring (emp_no, first_name, last_name etc..). This table is saved in ***current_emp.csv***. Below is the code used to create this table.
+##### First of all a table of all the current employees who are retiring is created by querying and joining the employees table and dept_emp table  and getting all the employees who fulfill the criteria stated above for retiring. This criteria is done by the WHERE() clause. As you can see there are two queries. The first one only gets all the retiring employees without the condition that these employees are still working in the company i.e. it includes employees that might left the company but were once working in it. This query is saved to ***retirement_info*** table. The second query queries the ***retirement_info*** table and joins it with the dept_emp table inorder to find all the current retiring employees, i.e. all the employees currently working in the company and are retiring. This condition is applied by the WHERE clause at the end of the second query *'WHERE de.to_date = ('9999-01-01')'*. This query is saved in  ***current_emp*** table.  This query simply outputs a table that has data for all the current employees who are retiring (emp_no, first_name, last_name etc..). This table is saved in ***current_emp.csv***. Below is the code used to create these tables:
  
 	> --------List of retiring employees--------- 
 	> SELECT emp_no, first_name, last_name
@@ -32,6 +32,7 @@
 	> FROM employees
 	> WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 	> AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+	
 	> ---------List of current retiring employees-----------
 	> SELECT ri.emp_no,
 	> ri.first_name,
@@ -111,7 +112,7 @@
 	
 	> 1609	Technique Leader
  
- ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This table is saved to ***mentors.csv*** file. Please note that we have 1549 potential mentors. This might mean that we might need to hire new employees or promote more employees. Below is the code used to create this table:
+ ##### Last but not least we need to find all the employees who can be potential mentors.  This table is created by querying the employees table for all the employees that were born in 1965 and then joining it to the titles table in order to include their titles, from_date and to_date, and also including the condition that they must be currently working in the company. The output is a table that contains all current employees that are born in 1965 along with all the data needed such as their names, title, and from and to dates. This table is saved to ***mentors.csv*** file. Please note that we have 1549 potential mentors. This might mean that we might need to hire new employees or promote more employees. Below is the code used to create this table:
  
 	> SELECT  e.emp_no,
 		e.first_name,
